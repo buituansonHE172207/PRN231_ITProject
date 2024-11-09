@@ -8,6 +8,7 @@ import { LoginForm } from "../modules/authentication/models";
 import { useAppDispatch } from "../reduxs/hooks";
 import { login } from "../reduxs/slices/authSlice";
 import { fetchProfile, setProfileLoading } from "../reduxs/slices/profileSlice";
+import { toast } from "react-toastify";
 
 export function Login() {
   const [form] = Form.useForm();
@@ -42,7 +43,7 @@ export function Login() {
         });
       })
       .catch((err) => {
-        console.error(err);
+        toast.error("Error: " + err);
         form.setFields([
           {
             name: "email",

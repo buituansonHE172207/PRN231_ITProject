@@ -10,6 +10,7 @@ import AttendanceApis from "../modules/attendance/apis/AttendanceApis";
 import { AttendanceStatusTag, CreateModal, DeleteModal, EditModal } from "../modules/attendance/components";
 import { AttendanceModel } from "../modules/attendance/models";
 import { SearchOutlined } from "@ant-design/icons";
+import { toast } from "react-toastify";
 
 type DataType = {
   key: number;
@@ -272,7 +273,11 @@ export const Attendance: React.FC = () => {
       .then((res) => {
         setAttendances(res.value.map((item) => ({ ...item, key: item.Id })));
       })
-      .catch((err) => console.error(err));
+      .catch((err) =>{
+        console.error(err);
+        openNotificationWithIcon("error", "Fetch", err?.response?.data?.error?.message);
+        toast.error("Error: " + err?.response?.data?.error?.message);
+      });
     setLoading(false);
   };
 
@@ -289,6 +294,7 @@ export const Attendance: React.FC = () => {
       .catch((err) => {
         console.error(err);
         openNotificationWithIcon("error", "Approve", err?.response?.data?.error?.message);
+        toast.error("Error: " + err?.response?.data?.error?.message);
       });
   };
 
@@ -301,6 +307,7 @@ export const Attendance: React.FC = () => {
       .catch((err) => {
         console.error(err);
         openNotificationWithIcon("error", "Reject", err.response.data.message);
+        toast.error("Error: " + err.response.data.message);
       });
   };
   const { RangePicker } = DatePicker;
